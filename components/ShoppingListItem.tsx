@@ -1,10 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View, Alert } from "react-native";
 import { theme } from "../theme";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 type Props = {
   name: string;
+  isCompleted?: boolean;
 };
-function ShoppingListItem({ name }: Props) {
+function ShoppingListItem({ name, isCompleted }: Props) {
   const handleDelete = () => {
     Alert.alert(
       `Are you sure you want to delete ${name}?`,
@@ -23,15 +25,27 @@ function ShoppingListItem({ name }: Props) {
     );
   };
   return (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemText}>{name}</Text>
-
-      <TouchableOpacity
-        onPress={handleDelete}
-        style={styles.button}
-        activeOpacity={0.8}
+    <View
+      style={[
+        styles.itemContainer,
+        isCompleted ? styles.completedContainer : undefined,
+      ]}
+    >
+      <Text
+        style={[
+          styles.itemText,
+          isCompleted ? styles.completedText : undefined,
+        ]}
       >
-        <Text style={styles.buttonText}>Delete</Text>
+        {name}
+      </Text>
+
+      <TouchableOpacity onPress={handleDelete} activeOpacity={0.8}>
+        <AntDesign
+          name="closecircle"
+          size={24}
+          color={isCompleted ? theme.colorGrey : theme.colorRed}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -41,7 +55,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     borderBottomWidth: 1,
     borderBottomColor: theme.colorCerulean,
-    paddingHorizontal: 8,
+    paddingHorizontal: 18,
     paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -51,16 +65,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "200",
   },
-  button: {
-    backgroundColor: theme.colorRed,
-    padding: 8,
-    borderRadius: 6,
+  completedContainer: {
+    backgroundColor: theme.colorLightGrey,
+    borderBottomColor: theme.colorLightGrey,
   },
-  buttonText: {
-    color: theme.colorWhite,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    letterSpacing: 1,
+  completedText: {
+    textDecorationLine: "line-through",
+    textDecorationColor: theme.colorGrey,
+    color: theme.colorGrey,
   },
 });
 
