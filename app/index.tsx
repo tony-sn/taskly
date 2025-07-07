@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-
 import ShoppingListItem from "../components/ShoppingListItem";
 import { theme } from "../theme";
 
@@ -31,6 +30,7 @@ export default function App() {
     setShoppingList(newShoppingList);
     setValue("");
   };
+
   const handleDelete = (id: string) => {
     const newShoppingList = shoppingList.filter((item) => item.id !== id);
     setShoppingList(newShoppingList);
