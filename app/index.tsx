@@ -7,6 +7,7 @@ type ShoppingListItemType = {
   id: string;
   name: string;
   completedAtTimestamp?: number;
+  lastUpdatedTimestamp: number;
 };
 
 // const initialList: ShoppingListItemType[] = [
@@ -25,6 +26,7 @@ export default function App() {
       {
         id: new Date().toTimeString(),
         name: value,
+        lastUpdatedTimestamp: Date.now(),
       },
     ];
     setShoppingList(newShoppingList);
@@ -41,6 +43,7 @@ export default function App() {
       if (item.id === id) {
         return {
           ...item,
+          lastUpdatedTimestamp: Date.now(),
           completedAtTimestamp: item.completedAtTimestamp
             ? undefined
             : Date.now(),
@@ -53,7 +56,7 @@ export default function App() {
   };
   return (
     <FlatList
-      data={shoppingList}
+      data={orderShoppingList(shoppingList)}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       stickyHeaderIndices={[0]}
@@ -84,11 +87,33 @@ export default function App() {
   );
 }
 
+function orderShoppingList(shoppingList: ShoppingListItemType[]) {
+  return shoppingList.sort((item1, item2) => {
+    if (item1.completedAtTimestamp && item2.completedAtTimestamp) {
+      return item2.completedAtTimestamp - item1.completedAtTimestamp;
+    }
+
+    if (item1.completedAtTimestamp && !item2.completedAtTimestamp) {
+      return 1;
+    }
+
+    if (!item1.completedAtTimestamp && item2.completedAtTimestamp) {
+      return -1;
+    }
+
+    if (!item1.completedAtTimestamp && !item2.completedAtTimestamp) {
+      return item2.lastUpdatedTimestamp - item1.lastUpdatedTimestamp;
+    }
+
+    return 0;
+  });
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 12,
+    paddingHorizontal: 12,
   },
   contentContainer: {
     paddingBottom: 24,
