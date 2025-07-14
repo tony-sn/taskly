@@ -12,6 +12,7 @@ import { theme } from "../theme";
 import { getFromStorage, saveToStorage } from "../utils/storage";
 import * as Haptics from "expo-haptics";
 
+// NOTE: move this to a constant file
 const storageKey = "shopping-list";
 
 type ShoppingListItemType = {
