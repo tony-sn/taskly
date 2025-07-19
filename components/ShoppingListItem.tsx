@@ -1,4 +1,6 @@
+import { Entypo } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Haptics from "expo-haptics";
 import {
   Alert,
   Pressable,
@@ -8,8 +10,6 @@ import {
   View,
 } from "react-native";
 import { theme } from "../theme";
-import { Entypo } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
 
 type Props = {
   name: string;

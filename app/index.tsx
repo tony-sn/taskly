@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import * as Haptics from "expo-haptics";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   LayoutAnimation,
@@ -10,7 +11,6 @@ import {
 import ShoppingListItem from "../components/ShoppingListItem";
 import { theme } from "../theme";
 import { getFromStorage, saveToStorage } from "../utils/storage";
-import * as Haptics from "expo-haptics";
 
 // NOTE: move this to a constant file
 const storageKey = "shopping-list";
