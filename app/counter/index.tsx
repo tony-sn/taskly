@@ -2,8 +2,21 @@ import { Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { theme } from "../../theme";
 import { registerForPushNotificationsAsync } from "../../utils/registerForPushNotificationsAsync";
 import * as Notifications from "expo-notifications";
+import { useEffect, useState } from "react";
 
 export default function CounterScreen() {
+  const [secondsElapsed, setSecondsElapsed] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSecondsElapsed((val) => val + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   const scheduleNotification = async () => {
     const result = await registerForPushNotificationsAsync();
     if (result === "granted") {
@@ -26,6 +39,7 @@ export default function CounterScreen() {
 
   return (
     <View style={styles.container}>
+      <Text>{secondsElapsed}</Text>
       <TouchableOpacity
         onPress={scheduleNotification}
         style={styles.button}
